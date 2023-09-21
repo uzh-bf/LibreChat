@@ -25,8 +25,8 @@ services:
       target: node                             # ^------v
     # image: ghcr.io/danny-avila/librechat:latest # Uncomment this & comment above to build from docker hub image
     restart: always
-    extra_hosts: # if you are running APIs on docker you need access to, you will need to uncomment this line and next
-    - "host.docker.internal:host-gateway"
+    # extra_hosts: # if you are running APIs on docker you need access to, you will need to uncomment this line and next
+    # - "host.docker.internal:host-gateway"
     env_file:
       - .env
     environment:
@@ -51,7 +51,7 @@ services:
     image: mongo
     restart: always
     volumes:
-      - ./data-node:/data/db
+      - mongo-data:/data/db
     command: mongod --noauth
   meilisearch:
     container_name: chat-meilisearch
@@ -66,4 +66,7 @@ services:
       - MEILI_HTTP_ADDR=meilisearch:7700
       - MEILI_NO_ANALYTICS=true
     volumes:
-      - ./meili_data:/meili_data
+      - meili-data:/meili_data
+volumes:
+  mongo-data:
+  meili-data:
